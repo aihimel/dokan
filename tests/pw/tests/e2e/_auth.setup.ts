@@ -24,8 +24,7 @@ setup.describe('authenticate users & set permalink', () => {
         const headers = await apiUtils.getSiteHeaders(BASE_URL);
         if (headers.link) {
             const serverUrl = headers.link.includes('rest_route') ? BASE_URL + '/?rest_route=' : BASE_URL + '/wp-json';
-            console.log('ServerUrl:', serverUrl);
-            process.env.SERVER_URL = serverUrl;
+            helpers.createEnvVar('SERVER_URL', serverUrl);
         } else {
             console.log("Headers link doesn't exists");
         }
@@ -45,23 +44,17 @@ setup.describe('authenticate users & set permalink', () => {
 
     setup('add customer1 @lite', async () => {
         const [, customerId] = await apiUtils.createCustomer(payloads.createCustomer1, payloads.adminAuth);
-        console.log('CUSTOMER_ID:', customerId);
-        process.env.CUSTOMER_ID = customerId;
-        helpers.appendEnv(`CUSTOMER_ID=${customerId}`); // for local testing
+        helpers.createEnvVar('CUSTOMER_ID', customerId);
     });
 
     setup('add vendor1 @lite', async () => {
         const [, sellerId] = await apiUtils.createStore(payloads.createStore1, payloads.adminAuth, true);
-        console.log('VENDOR_ID:', sellerId);
-        process.env.VENDOR_ID = sellerId;
-        helpers.appendEnv(`VENDOR_ID=${sellerId}`); // for local testing
+        helpers.createEnvVar('VENDOR_ID', sellerId);
     });
 
     setup('add vendor2 @lite', async () => {
         const [, sellerId] = await apiUtils.createStore(payloads.createStore2, payloads.adminAuth, true);
-        console.log('VENDOR2_ID:', sellerId);
-        process.env.VENDOR2_ID = sellerId;
-        helpers.appendEnv(`VENDOR2_ID=${sellerId}`); // for local testing
+        helpers.createEnvVar('VENDOR2_ID', sellerId);
     });
 
     setup('authenticate customer @lite', async ({ page }) => {
